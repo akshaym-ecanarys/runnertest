@@ -1,0 +1,27 @@
+name: Dynamic Runner Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+
+    outputs:
+      runner: ${{ steps.read.outputs.runner }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: read
+        run: |
+          RUNNER=$(grep RUNNER config.ini | cut -d '=' -f2)
+          echo "runner=$RUNNER" >> $GITHUB_OUTPUT
+
+  build:
+    needs: prepare
+    runs-on: ${{ needs.prepare.outputs.runner }}
+
+    steps:
+      - run: echo "Running build"
+      - run: hostname
