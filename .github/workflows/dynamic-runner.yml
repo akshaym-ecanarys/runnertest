@@ -15,7 +15,7 @@ jobs:
 
       - id: read
         run: |
-          RUNNER=$(grep RUNNER config.ini | cut -d '=' -f2)
+          RUNNER=$(grep RUNNER config.ini | cut -d '=' -f4)
           echo "runner=$RUNNER" >> $GITHUB_OUTPUT
 
   build:
